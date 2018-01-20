@@ -1,0 +1,27 @@
+{
+  "name": "halite-2018",
+  "version": "1.0.0",
+  "description": "Halite is an open source artificial intelligence programming challenge, created by Two Sigma, where players build bots using the coding language of their choice to battle on a two-dimensional virtual board.",
+  "main": "bot/MyBot.js",
+  "scripts": {
+    "test": "./halite $1 $2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/eadwu/halite-2018.git"
+  },
+  "author": "Edmund Wu",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "eslint": "^4.16.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "prettier": "^1.10.2"
+  }
+}
