@@ -1,10 +1,11 @@
 {
   "name": "halite-2018",
   "version": "1.0.0",
-  "description": "Halite is an open source artificial intelligence programming challenge, created by Two Sigma, where players build bots using the coding language of their choice to battle on a two-dimensional virtual board.",
+  "description": "An open source artificial intelligence programming challenge, created by Two Sigma.",
   "main": "bot/MyBot.js",
   "scripts": {
-    "test": "./halite $1 $2"
+    "test": "./halite $1 $2",
+    "clean": "git ls-files --ignored --others --exclude-standard | grep -v 'node_modules' | xargs -d '\\n' rm"
   },
   "repository": {
     "type": "git",
