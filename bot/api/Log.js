@@ -1,15 +1,15 @@
-const fs = require('fs');
+const fs = require('fs')
 
-let logFile;
+let logFile
 
 class Log {
-    static init(filePath) {
-        logFile = fs.createWriteStream(filePath, {flags : 'w'})
-    }
+  static init (filePath) {
+    logFile = fs.createWriteStream(filePath, {flags: 'w'})
+  }
 
-    static log(line) {
-        logFile.write(line + '\n');
-    }
+  static log (line) {
+    logFile.write(line + '\n')
+  }
 }
 
-module.exports = Log;
+module.exports = Log
