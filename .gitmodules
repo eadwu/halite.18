@@ -1,3 +1,6 @@
 [submodule "chlorine"]
 	path = chlorine
 	url = git@github.com:fohristiwhirl/chlorine.git
+[submodule "Halite-II"]
+	path = Halite-II
+	url = git@github.com:HaliteChallenge/Halite-II.git
