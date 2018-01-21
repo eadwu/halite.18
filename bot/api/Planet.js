@@ -29,7 +29,7 @@ class Planet extends Entity {
 
   /**
    * Determines if the planet owner is not you.
-   * @returns {boolean} true if planet is owned by you
+   * @returns {boolean} true if planet is owned by enemy
    */
   get hostile () {
     return this.isOwned() && this.ownerId !== this._gameMap.myPlayerId
