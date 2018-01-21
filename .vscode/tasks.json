@@ -4,9 +4,30 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "halite-2018: build",
+      "type": "npm",
+      "script": "build"
+    },
+    {
+      "label": "halite-2018: submit",
+      "type": "npm",
+      "script": "submit"
+    },
+    {
       "label": "halite-2018: clean",
       "type": "npm",
       "script": "clean"
+    },
+    {
+      "label": "halite-2018: vDefault",
+      "type": "shell",
+      "command":
+        "yarn test 'node ${workspaceFolder}/bot/MyBot.js' 'node ${workspaceFolder}/Halite-II/airesources/JavaScript/MyBot.js'"
+    },
+    {
+      "label": "halite-2018: vSelf",
+      "type": "shell",
+      "command": "yarn test 'node ${workspaceFolder}/bot/MyBot.js' 'node ${workspaceFolder}/bot/MyBot.js'"
     }
   ]
 }

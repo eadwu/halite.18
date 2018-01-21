@@ -5,6 +5,8 @@
   "main": "bot/MyBot.js",
   "scripts": {
     "test": "./halite $1 $2",
+    "build": "7z a -r halite-2018.zip ./bot/*",
+    "submit": "npm run build && ./Halite-II/tools/hlt_client/hlt_client/client.py bot -b halite-2018.zip",
     "clean": "git ls-files --ignored --others --exclude-standard | grep -v 'node_modules' | xargs -d '\\n' rm"
   },
   "repository": {
