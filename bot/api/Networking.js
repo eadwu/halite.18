@@ -17,8 +17,6 @@ class Networking {
   static readNLines (n, onLines) {
     const lines = []
 
-    readLine()
-
     function readLine () {
       rl.question('', onLine)
     }
@@ -31,6 +29,8 @@ class Networking {
         readLine()
       }
     }
+
+    readLine()
   }
 
   static readLine (onLine) {
@@ -38,7 +38,7 @@ class Networking {
   }
 
   static forEachReadLine (onLineCallback) {
-    rl.on('line', (line) => {
+    rl.on('line', line => {
       onLineCallback(line)
     })
   }

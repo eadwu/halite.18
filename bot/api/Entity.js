@@ -26,20 +26,20 @@ class Entity {
   }
 
   /**
-     * calculates the distance between this object and the target
-     * @param {Entity} target target
-     * @return {number} distance
-     */
-  distanceBetween (target) {
+   * calculates the distance between this object and the target
+   * @param {Entity} target target
+   * @return {number} distance
+   */
+  delta (target) {
     return Geometry.distance(this, target)
   }
 
   /**
-     * the angle in degrees between this object and the target in degrees
-     * @param {Entity} target target
-     * @return {number} angle in degrees
-     */
-  angleBetweenInDegree (target) {
+   * the angle in degrees between this object and the target in degrees
+   * @param {Entity} target target
+   * @return {number} angle in degrees
+   */
+  theta (target) {
     return Geometry.angleInDegree(this, target)
   }
 }

@@ -2,8 +2,6 @@ const Ship = require('./Ship')
 const Planet = require('./Planet')
 const Geometry = require('./Geometry')
 
-const constants = require('./Constants')
-
 class GameMap {
   constructor ({ myPlayerId, width, height }) {
     this._myPlayerId = myPlayerId
@@ -74,7 +72,7 @@ class GameMap {
    * list of all ships
    * @returns {Ship[]}
    */
-  get allShips () {
+  get ships () {
     return this._ships
   }
 
@@ -129,6 +127,18 @@ class GameMap {
     return this._planets
   }
 
+  get myPlanets () {
+    return this.planets.filter(planet => planet.friendly)
+  }
+
+  get neutralPlanets () {
+    return this.planets.filter(planet => planet.neutral)
+  }
+
+  get enemyPlanets () {
+    return this.planets.filter(planet => planet.hostile)
+  }
+
   /**
    * ships between specified ship and a target. excludes ship and target
    * @param {Ship} ship
@@ -136,7 +146,7 @@ class GameMap {
    * @returns {Ship[]}
    */
   shipsBetween (ship, target) {
-    return this._obstaclesBetween(this.allShips, ship, target)
+    return this._obstaclesBetween(this.ships, ship, target)
   }
 
   /**

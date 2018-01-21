@@ -1,24 +1,41 @@
 const GameMap = require('./GameMap')
 
+function mapRange (end, mapFunc) {
+  const result = []
+  for (let idx = 0; idx < end; idx++) {
+    result.push(mapFunc(idx))
+  }
+
+  return result
+}
+
+function forEachInRange (end, actionFunc) {
+  for (let idx = 0; idx < end; idx++) {
+    actionFunc(idx)
+  }
+}
+
 class GameMapParser {
-  constructor ({myPlayerId, width, height}) {
+  constructor ({ myPlayerId, width, height }) {
     this._myPlayerId = myPlayerId
     this._width = width
     this._height = height
   }
 
   /**
-     * creates a game map instance from an encoded line
-     * @param line line from the halite communication
-     * @return {GameMap}
-     */
+   * creates a game map instance from an encoded line
+   * @param line line from the halite communication
+   * @return {GameMap}
+   */
   parse (line) {
     this._tokens = line.trim().split(' ')
     this._currentIdx = 0
 
-    this.map = new GameMap({myPlayerId: this._myPlayerId,
+    this.map = new GameMap({
+      myPlayerId: this._myPlayerId,
       width: this._width,
-      height: this._height})
+      height: this._height
+    })
 
     this._parsePlayers()
     this._parsePlanets()
@@ -110,21 +127,6 @@ class GameMapParser {
 
   _remainingTokens () {
     return this._tokens.slice(this._currentIdx)
-  }
-}
-
-function mapRange (end, mapFunc) {
-  const result = []
-  for (let idx = 0; idx < end; idx++) {
-    result.push(mapFunc(idx))
-  }
-
-  return result
-}
-
-function forEachInRange (end, actionFunc) {
-  for (let idx = 0; idx < end; idx++) {
-    actionFunc(idx)
   }
 }
 

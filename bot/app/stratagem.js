@@ -7,9 +7,7 @@ function stratagem (gameMap) {
   // in this particular strategy we only give new commands to ships that are not docked
   const moves = gameMap.myShips.filter(s => s.isUndocked()).map(ship => {
     // find the planets that are free or occupied by you
-    const planetsOfInterest = gameMap.planets.filter(
-      p => p.isFree() || (p.isOwnedByMe() && p.hasDockingSpot())
-    )
+    const planetsOfInterest = gameMap.planets.filter(p => p.neutral || (p.friendly && p.hasDockingSpot()))
 
     if (planetsOfInterest.length === 0) {
       return null // if all the planets are taken we return null - no move for this ship
