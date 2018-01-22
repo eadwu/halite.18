@@ -1,45 +1,75 @@
 const Constants = require('../api/Constants')
-const Geometry = require('../api/Geometry')
+const Planet = require('../api/Planet')
+const Log = require('../api/Log')
+
+/**
+ * Moves ship to (or closer to) entity
+ * @param {Ship} ship - The origin ship
+ * @param {Entity} entity - The target entity
+ * @param {number} displacement - Distance to keep away from target
+ * @return {string} The move command
+ */
+function move (ship, entity, displacement = Constants.SHIP_RADIUS) {
+  if (entity instanceof Planet && displacement > 0) {
+    displacement = entity.radius + Constants.DOCK_RADIUS - 1
+  }
+
+  return ship.navigate({
+    target: entity,
+    keepDistanceToTarget: displacement,
+    speed: Constants.MAX_SPEED
+  })
+}
+
+/**
+ * The algorithm that defines how an attack should occur
+ * @param {Ship} ship - The origin ship
+ * @param {Ship} hostile - The target ship
+ * @param {Ship} friendly - Fallback ship after attack
+ * @return {string} The move command
+ */
+function attack (ship, hostile, friendly) {
+  return ship.delta(hostile) <= Constants.WEAPON_RADIUS &&
+    friendly &&
+    ship.delta(friendly) > ship.delta(hostile)
+    ? move(ship, friendly, 1)
+    : move(ship, hostile)
+}
+
+/**
+ * Attempts to dock the ship if possible or move it closer to the planet
+ * @param {Ship} ship - The origin ship
+ * @param {Planet} planet - The target planet
+ * @return {string} The dock|move command
+ */
+function attemptDock (ship, planet) {
+  return ship.canDock(planet) ? ship.dock(planet) : move(ship, planet)
+}
 
 function stratagem (gameMap) {
-  // Here we build the set of commands to be sent to the Halite engine at the end of the turn
-  // one ship - one command
-  // in this particular strategy we only give new commands to ships that are not docked
-  const moves = gameMap.myShips.filter(s => s.isUndocked()).map(ship => {
-    // find the planets that are free or occupied by you
-    const planetsOfInterest = gameMap.planets.filter(p => p.neutral || (p.friendly && p.hasDockingSpot()))
+  const { myShips, enemyShips, myPlanets, neutralPlanets, enemyPlanets } = gameMap
 
-    if (planetsOfInterest.length === 0) {
-      return null // if all the planets are taken we return null - no move for this ship
+  const dockablePlanets = myPlanets.filter(p => p.hasDockingSpot())
+  const activeHostiles = enemyShips.filter(s => s.undocked)
+  const idleHostiles = enemyShips.filter(s => !s.undocked)
+  const activeFriendlies = myShips.filter(s => s.undocked)
+
+  return activeFriendlies.map(ship => {
+    const dockablePlanet = ship.closestEntityFrom(dockablePlanets)
+    const freePlanet = ship.closestEntityFrom(neutralPlanets)
+    const activeHostilePlanet = ship.closestEntityFrom(enemyPlanets)
+    const activeHostile = ship.closestEntityFrom(activeHostiles)
+    const idleHostile = ship.closestEntityFrom(idleHostiles)
+    const friendly = ship.closestEntityFrom(myShips, 1)
+
+    if (dockablePlanet) {
+      return attemptDock(ship, dockablePlanet)
+    } else if (freePlanet) {
+      return attemptDock(ship, freePlanet)
     }
 
-    // sorting planets based on the distance to the ship
-    const sortedPlants = [...planetsOfInterest].sort(
-      (a, b) => Geometry.distance(ship, a) - Geometry.distance(ship, b)
-    )
-    const chosenPlanet = sortedPlants[0]
-
-    if (ship.canDock(chosenPlanet)) {
-      return ship.dock(chosenPlanet)
-    } else {
-      /*
-      If we can't dock, we approach the planet with constant speed.
-      Don't worry about pathfinding for now, as the command will do it for you.
-      We run this navigate command each turn until we arrive to get the latest move.
-      Here we move at half our maximum speed to better control the ships.
-      Navigate command is an example and most likely you will have to design your own.
-      */
-      return ship.navigate({
-        target: chosenPlanet,
-        keepDistanceToTarget: chosenPlanet.radius + 3,
-        speed: Constants.MAX_SPEED,
-        avoidObstacles: true,
-        ignoreShips: false
-      })
-    }
+    return null
   })
-
-  return moves // return moves assigned to our ships for the Halite engine to take
 }
 
 module.exports = stratagem
