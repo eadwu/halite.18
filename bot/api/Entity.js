@@ -42,6 +42,10 @@ class Entity {
   theta (target) {
     return Geometry.angleInDegree(this, target)
   }
+
+  closestEntityFrom (entities, modifier = 0) {
+    return entities.length > 0 ? entities.sort((a, b) => this.delta(a) - this.delta(b))[modifier] : false
+  }
 }
 
 module.exports = Entity

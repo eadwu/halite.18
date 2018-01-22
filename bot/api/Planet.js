@@ -60,7 +60,7 @@ class Planet extends Entity {
    * @return {boolean} true if there is a docking spot
    */
   hasDockingSpot () {
-    return this.numberOfDockedShips < this._params.dockingSpots
+    return this.numberOfDockedShips < this.dockingSpots
   }
 
   get currentProduction () {

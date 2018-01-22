@@ -128,15 +128,15 @@ class GameMap {
   }
 
   get myPlanets () {
-    return this.planets.filter(planet => planet.friendly)
+    return this.planets.filter(p => p.friendly)
   }
 
   get neutralPlanets () {
-    return this.planets.filter(planet => planet.neutral)
+    return this.planets.filter(p => p.neutral)
   }
 
   get enemyPlanets () {
-    return this.planets.filter(planet => planet.hostile)
+    return this.planets.filter(p => p.hostile)
   }
 
   /**
